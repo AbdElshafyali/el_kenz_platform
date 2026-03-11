@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useState } from 'react';
 import { Package, Plus, Filter, Loader2, Star, CheckCircle2, Tag, ShoppingBag } from 'lucide-react';
 import { AX_DataService } from '@/services/data-service';

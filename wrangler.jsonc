@@ -2,6 +2,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
 	"name": "softrun-engine",
+	"account_id": "8a898993390922b4d5979732f26ccd7b",
 	"compatibility_date": "2026-03-10",
 	"compatibility_flags": [
 		"nodejs_compat",
