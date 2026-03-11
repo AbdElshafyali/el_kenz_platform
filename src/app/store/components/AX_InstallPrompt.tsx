@@ -15,6 +15,10 @@ export function AX_InstallPrompt({ isMandatory = false }: { isMandatory?: boolea
     const [notifGranted, setNotifGranted] = useState(false);
 
     useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+
         const ua = window.navigator.userAgent;
         const ios = /iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream;
         const android = /Android/.test(ua);
@@ -28,7 +32,6 @@ export function AX_InstallPrompt({ isMandatory = false }: { isMandatory?: boolea
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
 
         if (isStandalone) {
-            // Already installed: only ask for notifications
             const notifDone = localStorage.getItem('ax_notifications_asked');
             if (!notifDone) {
                 setTimeout(() => { setStep('notifications'); setIsVisible(true); }, 2000);
@@ -39,11 +42,12 @@ export function AX_InstallPrompt({ isMandatory = false }: { isMandatory?: boolea
         const handler = (e: any) => {
             e.preventDefault();
             setDeferredPrompt(e);
+            setIsVisible(true);
         };
         window.addEventListener('beforeinstallprompt', handler);
 
         const seen = localStorage.getItem('ax_install_prompt_seen');
-        if (!seen) {
+        if (!seen && ios) {
             setTimeout(() => setIsVisible(true), 2500);
         }
 

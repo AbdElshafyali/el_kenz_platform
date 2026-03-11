@@ -129,12 +129,13 @@ export default function AX_FloatingDock({ cartCount, onCartOpen, store }: AX_Flo
             {socialLinks.length > 0 && (
                 <div
                     ref={dockRef}
-                    className="fixed bottom-0 left-1/2 -translate-x-1/2 z-[150]"
+                    className="fixed bottom-0 left-1/2 -translate-x-1/2 z-[150] flex flex-col items-center"
                     onMouseEnter={() => setDockOpen(true)}
                     onMouseLeave={() => setDockOpen(false)}
                 >
-                    <div className="relative flex items-end justify-center transition-all duration-500"
-                        style={{ width: `${(radius * 2) + 120}px`, height: dockOpen ? `${radius + 80}px` : '40px' }}
+                    <div
+                        className="relative flex items-end justify-center transition-all duration-500"
+                        style={{ width: `${(radius * 2) + 120}px`, height: dockOpen ? `${radius + 80}px` : '0px' }}
                     >
                         {socialLinks.map((link, i) => {
                             const total = socialLinks.length;
@@ -175,21 +176,21 @@ export default function AX_FloatingDock({ cartCount, onCartOpen, store }: AX_Flo
                                 </a>
                             );
                         })}
+                    </div>
 
-                        {/* Trigger Handle */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 group/handle cursor-pointer">
-                            <div className={cn(
-                                "w-20 h-10 rounded-t-[2.5rem] flex items-center justify-center transition-all duration-500 border-t border-x border-border shadow-2xl",
-                                dockOpen ? "bg-primary border-primary h-12" : "bg-secondary/80 backdrop-blur-xl hover:bg-secondary"
-                            )}>
-                                <Share2 
-                                    size={18} 
-                                    className={cn(
-                                        "transition-all duration-500",
-                                        dockOpen ? "text-primary-foreground rotate-180 scale-125" : "text-primary group-hover/handle:scale-110"
-                                    )} 
-                                />
-                            </div>
+                    {/* Trigger Handle — always flush to bottom */}
+                    <div className="group/handle cursor-pointer">
+                        <div className={cn(
+                            "w-20 flex items-center justify-center transition-all duration-500 border-t border-x border-border shadow-2xl",
+                            dockOpen ? "bg-primary border-primary h-10 rounded-t-[1.5rem]" : "bg-secondary/80 backdrop-blur-xl hover:bg-secondary h-8 rounded-t-[1.5rem]"
+                        )}>
+                            <Share2
+                                size={18}
+                                className={cn(
+                                    "transition-all duration-500",
+                                    dockOpen ? "text-primary-foreground rotate-180 scale-125" : "text-primary group-hover/handle:scale-110"
+                                )}
+                            />
                         </div>
                     </div>
                 </div>

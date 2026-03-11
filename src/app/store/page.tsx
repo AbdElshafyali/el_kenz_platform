@@ -19,7 +19,6 @@ export default function StoreFrontPage() {
     const [products, setProducts] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isCartOpen, setIsCartOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const [likes, setLikes] = useState<Record<string, number>>({});
@@ -91,7 +90,7 @@ export default function StoreFrontPage() {
 
     return (
         <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 pb-32" dir="rtl">
-            <AX_StoreHeader totalCount={totalCount()} onCartOpen={() => setIsCartOpen(true)} />
+            <AX_StoreHeader totalCount={totalCount()} onCartOpen={() => setIsCheckoutOpen(true)} />
 
             <main className="pt-24 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col">
                 <div className="mb-8 text-center space-y-4">
@@ -185,7 +184,7 @@ export default function StoreFrontPage() {
                 )}
             </main>
 
-            <AX_FloatingDock cartCount={totalCount()} onCartOpen={() => setIsCartOpen(true)} store={store} />
+            <AX_FloatingDock cartCount={totalCount()} onCartOpen={() => setIsCheckoutOpen(true)} store={store} />
             <AX_StoreQuickView product={selectedProduct} onClose={() => setSelectedProduct(null)} pricingType={store.pricing_mode} unifiedPrice={store.unified_price} categories={categories} onAdd={(p: any, color?: any, size?: any) => addItem(p, store.pricing_mode === 'unified' ? store.unified_price : (p.discount_price || p.price), color, size)} onRequest={(p: any) => setRequestProduct(p)} isLiked={userLikes.includes(selectedProduct?.id)} onLike={() => toggleLike(selectedProduct?.id)} likesCount={likes[selectedProduct?.id] || 0} />
             <StoreCheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} items={useCartStore.getState().items} totalAmount={useCartStore.getState().totalAmount()} store={store} onSuccess={() => { setIsCheckoutOpen(false); useCartStore.getState().clearCart(); }} />
             <AX_RequestModal product={requestProduct} isOpen={!!requestProduct} onClose={() => setRequestProduct(null)} store={store} />
